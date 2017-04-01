@@ -35,7 +35,7 @@ without further input from me.
 */
 clear all
 cap log close
-log using stata_intro.log, text replace
+log using "~/Desktop/Econometrics/stata/intro.log", text replace
 set more off
 
 /*
@@ -205,7 +205,7 @@ list
 Lastly, we're done with our data for now, so let's save it (even though
 we've kind of shredded it to pieces) and clear the workspace.
 */
-save intro_data, replace
+save "~/Desktop/Econometrics/stata/intro_data", replace
 clear
 log close
 
