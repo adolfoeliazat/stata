@@ -2,127 +2,134 @@
       name:  <unnamed>
        log:  /Users/Sun/Desktop/Econometrics/stata/hw1.log
   log type:  text
- opened on:   1 Apr 2017, 10:00:54
+ opened on:   5 Apr 2017, 14:02:15
 
 . set more off
 
 . 
-. // ------ MAIN ------
+. /*
+>  * ~ Main ~
+>  */
+. 
+. set seed 5
+
+. //  10 25 50 100 250 500
 . foreach x in 5 10 25 50 100 250 500 {
   2.         di "Current sample size = " `x'
   3.         // CHANGE n = 5 obersvations to maybe 10?
-.         set obs `x'
+.         set obs 1000
   4.         // Let `id` be the indicator of the step (2) counter
 > .
 .         gen id = _n
   5.         // CHANGE S = 10 to 1000.
-.         expand 1000
+.         expand `x'
   6.         sort id
   7. 
 .         // Generate uniform data
-.         set seed 5142017
-  8.         by id: gen s = runiform()
-  9. 
+.         by id: gen s = runiform()
+  8. 
 .         // Now let's calculate statistics
 .         by id: egen p_s_ave = mean(s)
- 10.         replace p_s_ave = 2*p_s_ave
- 11. 
+  9.         replace p_s_ave = 2*p_s_ave
+ 10. 
 .         by id: egen p_s_max = max(s)
- 12. 
+ 11. 
 .         // Note that `g` prefix stands for `global`
 .         // For average:
 .         egen gmu_ave = mean(p_s_ave)
- 13.         gen gsigma_ave_tmp = (p_s_ave - 1)^2
- 14.         egen gsigma_ave = mean(gsigma_ave_tmp)
- 15.         drop gsigma_ave_tmp
- 16. 
+ 12.         gen gsigma_ave_tmp = (p_s_ave - 1)^2
+ 13.         egen gsigma_ave = mean(gsigma_ave_tmp)
+ 14.         drop gsigma_ave_tmp
+ 15. 
 .         // For maximum:
 .         egen gmu_max = mean(p_s_max)
- 17.         gen gsigma_max_tmp = (p_s_max - 1)^2
- 18.         egen gsigma_max = mean(gsigma_max_tmp)
- 19.         drop gsigma_max_tmp
- 20. 
-.         di "gmu_av e" gmu_ave
- 21.         di "gsigma_ave " gsigma_ave
- 22.         di "gmu_max " gmu_max
- 23.         di "gsigma_max " gsigma_max
- 24.         di "_________________________"
- 25.         drop _all
- 26. }
+ 16.         gen gsigma_max_tmp = (p_s_max - 1)^2
+ 17.         egen gsigma_max = mean(gsigma_max_tmp)
+ 18.         drop gsigma_max_tmp
+ 19. 
+.         di "gmu_ave" gmu_ave
+ 20.         di "gsigma_ave " gsigma_ave
+ 21.         di "gmu_max " gmu_max
+ 22.         di "gsigma_max " gsigma_max
+ 23.         di "_________________________"
+ 24.         drop _all
+ 25. }
 Current sample size = 5
-number of observations (_N) was 0, now 5
-(4,995 observations created)
+number of observations (_N) was 0, now 1,000
+(4,000 observations created)
 (5,000 real changes made)
-gmu_av e1.0033555
-gsigma_ave .00017791
-gmu_max .99858344
-gsigma_max 2.381e-06
+gmu_ave1.0041877
+gsigma_ave .0642743
+gmu_max .83085221
+gsigma_max .04780291
 _________________________
 Current sample size = 10
-number of observations (_N) was 0, now 10
-(9,990 observations created)
+number of observations (_N) was 0, now 1,000
+(9,000 observations created)
 (10,000 real changes made)
-gmu_av e.99673373
-gsigma_ave .000364
-gmu_max .99859256
-gsigma_max 2.401e-06
+gmu_ave1.0012858
+gsigma_ave .03259266
+gmu_max .91031808
+gsigma_max .01455062
 _________________________
 Current sample size = 25
-number of observations (_N) was 0, now 25
-(24,975 observations created)
+number of observations (_N) was 0, now 1,000
+(24,000 observations created)
 (25,000 real changes made)
-gmu_av e.9958331
-gsigma_ave .00031191
-gmu_max .99860036
-gsigma_max 2.965e-06
+gmu_ave.99896711
+gsigma_ave .01303527
+gmu_max .96111244
+gsigma_max .00284632
 _________________________
 Current sample size = 50
-number of observations (_N) was 0, now 50
-(49,950 observations created)
+number of observations (_N) was 0, now 1,000
+(49,000 observations created)
 (50,000 real changes made)
-gmu_av e.99519676
-gsigma_ave .00039362
-gmu_max .99860477
-gsigma_max 3.362e-06
+gmu_ave.99650925
+gsigma_ave .00616088
+gmu_max .98015624
+gsigma_max .00076609
 _________________________
 Current sample size = 100
-number of observations (_N) was 0, now 100
-(99,900 observations created)
+number of observations (_N) was 0, now 1,000
+(99,000 observations created)
 (100,000 real changes made)
-gmu_av e.99781007
-gsigma_ave .00037477
-gmu_max .99884659
-gsigma_max 2.495e-06
+gmu_ave.99949843
+gsigma_ave .0034442
+gmu_max .99035913
+gsigma_max .00017984
 _________________________
 Current sample size = 250
-number of observations (_N) was 0, now 250
-(249,750 observations created)
+number of observations (_N) was 0, now 1,000
+(249,000 observations created)
 (250,000 real changes made)
-gmu_av e.99941772
-gsigma_ave .00031655
-gmu_max .99894464
-gsigma_max 2.200e-06
+gmu_ave1.0011899
+gsigma_ave .00133032
+gmu_max .99621308
+gsigma_max .00002672
 _________________________
 Current sample size = 500
-number of observations (_N) was 0, now 500
-(499,500 observations created)
+number of observations (_N) was 0, now 1,000
+(499,000 observations created)
 (500,000 real changes made)
-gmu_av e.99967915
-gsigma_ave .00034394
-gmu_max .99898899
-gsigma_max 2.118e-06
+gmu_ave.99974364
+gsigma_ave .0006736
+gmu_max .99797815
+gsigma_max 8.075e-06
 _________________________
 
 . 
-. 
+. /*
+>  ~ Clean up ~
+> */
 . // line gmu_ave gmu_max id, title("Deviations for Worker 1") xt
 > itle("Sample Size") ytitle("mu")
-. 
-. save "~/Desktop/Econometrics/stata/hw1", replace
-no variables defined
-r(111);
+. // save "~/Desktop/Econometrics/stata/hw1", replace
+. clear
 
-end of do-file
-
-r(111);
-
+. log close
+      name:  <unnamed>
+       log:  /Users/Sun/Desktop/Econometrics/stata/hw1.log
+  log type:  text
+ closed on:   5 Apr 2017, 14:02:21
+-----------------------------------------------------------------

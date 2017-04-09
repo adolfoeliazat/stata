@@ -1,26 +1,26 @@
 /*
- ~ Set up ~
-*/
+ * ~ Set up ~
+ */
 clear all
 cap log close
 log using "~/Desktop/Econometrics/stata/hw1.log", text replace
 set more off
 
 /*
- ~ Main ~
-*/
+ * ~ Main ~
+ */
+
+set seed 5
+//  10 25 50 100 250 500
 foreach x in 5 10 25 50 100 250 500 {
 	di "Current sample size = " `x'
-	// CHANGE n = 5 obersvations to maybe 10?
-	set obs `x'
+	set obs 1000
 	// Let `id` be the indicator of the step (2) counter.
 	gen id = _n
-	// CHANGE S = 10 to 1000.
-	expand 1000
+	expand `x'
 	sort id
 
 	// Generate uniform data
-	set seed 5142017
 	by id: gen s = runiform()
 
 	// Now let's calculate statistics
@@ -42,7 +42,7 @@ foreach x in 5 10 25 50 100 250 500 {
 	egen gsigma_max = mean(gsigma_max_tmp)
 	drop gsigma_max_tmp
 
-	di "gmu_av e" gmu_ave
+	di "gmu_ave" gmu_ave
 	di "gsigma_ave " gsigma_ave
 	di "gmu_max " gmu_max
 	di "gsigma_max " gsigma_max
