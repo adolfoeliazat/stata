@@ -18,6 +18,7 @@ drop if missing(brthord)
 // wage as well as education. 
 
 regress wage educ exper tenure sibs
+//  wage |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
 // educ |    71.2122   6.757601    10.54   0.000     57.94859    84.47581
 // exper |    13.1329   3.408595     3.85   0.000     6.442621    19.82319
 // tenure |   7.684232   2.585755     2.97   0.003     2.608993    12.75947
@@ -77,11 +78,19 @@ regress wage EducHat exper tenure sibs
 
 // Code
 ivregress 2sls wage (educ=brthord) exper tenure sibs
-** educ |   195.9461   118.4057 
-** exper |   42.62261   28.21843 
-** tenure |   3.918766    4.69459 
-** sibs |   10.11142   23.04894 
-** _cons |  -2228.329     1962.7
+/*
+ wage    |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+	educ |   195.9461   118.4057     1.65   0.098    -36.12484     428.017
+   exper |   42.62261   28.21843     1.51   0.131    -12.68449    97.92971
+  tenure |   3.918766    4.69459     0.83   0.404    -5.282462    13.11999
+	sibs |   10.11142   23.04894     0.44   0.661    -35.06367     55.2865
+   _cons |  -2228.329     1962.7    -1.14   0.256    -6075.149    1618.492
+*/
+
+// Explanation: Here we see that indeed the betas are almost identical, which is
+// expected. Note that however, standard errors differ. In particular, for example
+// educ coefficient is bigger by roughly 12.03 than that of EducHat.
 
 // --------------------------------- Part g --------------------------------// Explanation: As it was previously mentioned, the SEs are different between 
 // the two methods. In this case, the SEs that resulted from the IV regression 
